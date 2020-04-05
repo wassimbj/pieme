@@ -25,36 +25,45 @@ class Project {
         // console.log(data)
         const user_id = session.userid;
 
-        let errors = [];
+        let errors = [{}];
+        //     [{ 
+        //         fieldName: {msg: 'fffff'}, 
+        //         fieldName2: {msg: '4444'} 
+        // }]
 
         if(!title)
-            errors.push({field: 'title', msg: 'Please enter the title'});
+            errors[0]['title'] = {msg: 'Please enter the title'};
 
         if (!description)
-            errors.push({ field: 'description', msg: 'Please enter the description'});
-
+            errors[0]['description'] = { msg: 'Please enter the description' };
+            // errors.push({ field: 'description', msg: 'Please enter the description'});
+            
         if (tags.length == 0)
-            errors.push({ field: 'tags', msg: 'Please enter some tags'});
+            errors[0]['tags'] = { msg: 'Please enter some tags' };
+            // errors.push({ field: 'tags', msg: 'Please enter some tags'});
             
         if(tags.length > 5)
-            errors.push({ field: 'tags', msg: 'You cant enter more then 5 tags'});
-
+            errors[0]['tags'] = { msg: 'You cant enter more then 5 tags' };
+            // errors.push({ field: 'tags', msg: 'You cant enter more then 5 tags'});
+            
         if (tags.length > 0 && tags.length < 5 ) {
             // tags = tags.split(',');
             let i = 0,
-                tagIsOk = true;
+            tagIsOk = true;
             do {
                 tagIsOk = tags[i].trim().length > 15 ? false : true;
                 i = i + 1;
             } while (tagIsOk && i < tags.length);
-
+                
             if (!tagIsOk)
-                setError({ field: 'tags', msg: 'Tag must not contain more then 15 chars' })
+                errors[0]['tags'] = { msg: 'Tag must not contain more then 15 chars' };
         }
-
+        
         if (!category)
-            errors.push({ field: 'category', msg: 'Please choose a category'});
+            errors[0]['category'] = { msg: 'Please choose a category' };
+            // errors.push({ field: 'category', msg: 'Please choose a category'});
 
+            // console.log(errors)
         if(errors.length > 0)
             return {error: errors, success: false};
         

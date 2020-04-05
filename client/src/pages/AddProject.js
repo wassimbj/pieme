@@ -69,8 +69,8 @@ export default function AddProject() {
                 }
             }
         }).then(res => {
-            // console.log('RES: ', res.data.submitProject)
-            setError(res.data.submitProject);
+            console.log('RES: ', res)
+            // setError(res.data.submitProject);
         }).catch(err => {
             console.log('SUBMIT_PROJECT_ERROR: ', err)
         })
@@ -93,7 +93,11 @@ export default function AddProject() {
                         Project Title
                     </label>
                     <input onChange={inputChange('title')} className="bg-gray-700 appearance-none border-2 border-gray-400 rounded w-full py-2 px-4 text-gray-200 leading-tight focus:outline-none focus:bg-gray-800 focus:border-gray-500" type="text" placeholder='e.g: eCommerce website, ...' />
-                    
+                    {
+                        error.error && error.error[0].title ?
+                            <p className='text-red-500'> {error.error[0].title.msg} </p>
+                        : null
+                    }
                 </div>            
 
                 <div className='mb-10'>
