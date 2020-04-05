@@ -55,7 +55,11 @@ const typeDefs = gql`
         error: [Error]
         success: Boolean!
     }
-    # ------- Common ------
+
+    type CustomResponse {
+        error: String
+        success: Boolean
+    }
 
 
     # ---- Auth ----
@@ -76,6 +80,7 @@ const typeDefs = gql`
         preview: String
         github: String
     }
+
     input projectData {
         title: String!
         links: projectLinksInput
@@ -93,7 +98,7 @@ const typeDefs = gql`
         logout: Boolean!
 
         # Submit project
-        submitProject(projectData: projectData): MutResponse!
+        submitProject(projectData: projectData): CustomResponse!
     }
 
 `;
