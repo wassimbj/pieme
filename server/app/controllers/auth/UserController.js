@@ -14,26 +14,62 @@ class User {
             const {email, password} = loginData;
     
             let user_by_email = await UserModel.findOne({email});
-        
-            if (user_by_email)
-            {
-                // check the password
-                let pasword_is_the_same = await bcrypt.compare(password, user_by_email.password);
-                if (pasword_is_the_same)
-                {
-                    session.userid = user_by_email._id;
 
-                    return {
-                        error: null,
-                        success: true
+            let errors = [{}],
+                everything_is_ok = true;
+
+            if(!email)
+            {
+                errors[0]['email'] = {msg: 'Please enter your email'}
+                everything_is_ok = false;
+            }
+            if(!password)
+            {
+                errors[0]['password'] = {msg: 'Please enter your password'}
+                everything_is_ok = false;
+            }
+            if(password && password.length > 20)
+            {
+                errors[0]['password'] = {msg: 'You entered a too long password'}
+                everything_is_ok = false;
+            }
+
+            
+            if(everything_is_ok)
+            {
+
+                if (user_by_email)
+                {
+                    // check the password
+                    let pasword_is_the_same = await bcrypt.compare(password, user_by_email.password);
+                    if (pasword_is_the_same)
+                    {
+                        session.userid = user_by_email._id;
+
+                        return {
+                            error: null,
+                            success: true
+                        }
                     }
+                }
+
+                return {
+                    error: JSON.stringify([{
+                                noAccount: { msg: 'there is no account with the provided credentials' }
+                                , email: true 
+                                , password: true 
+                            }]),
+                    success: false
+                }
+            }else{
+                return {
+                    error: JSON.stringify(errors),
+                    success: false
                 }
             }
 
-            return {
-                error: [{field: 'email', msg: 'there is no account with the provided credentials'}],
-                success: false
-            }
+
+
         }else{
            throw new Error('You are already logged-in');
         }

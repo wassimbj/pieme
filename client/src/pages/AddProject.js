@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { gql } from 'apollo-boost';
 import { useMutation } from '@apollo/react-hooks';
-import Input from '../components/project/Input';
+import Input from '../components/form/Input';
 
 
 export default function AddProject() {

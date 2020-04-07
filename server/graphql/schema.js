@@ -93,7 +93,7 @@ const typeDefs = gql`
     type Mutation {
 
         # Auth mutation
-        login(loginData: loginData): MutResponse!
+        login(loginData: loginData): CustomResponse!
         register(registerData: registerData): MutResponse!
         logout: Boolean!
 

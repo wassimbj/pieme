@@ -55,6 +55,7 @@ server.applyMiddleware({
     cors: CORS_OPTIONS
 });
 
-app.listen({port: 7000}, () => {
-    console.log(`Server is working on http://localhost:7000${server.graphqlPath}`)
+const PORT = process.env.PORT || 7000;
+app.listen({ port: PORT}, () => {
+    console.log(`Server is working on http://localhost:${PORT}${server.graphqlPath}`)
 })
